@@ -504,7 +504,7 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
             }
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FormViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FormViewController.keyboardDidShow(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(FormViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 
         if form.containsMultivaluedSection && (isBeingPresented || isMovingToParent) {
@@ -514,7 +514,7 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
@@ -958,6 +958,7 @@ extension FormViewController : UITableViewDataSource {
     // MARK: UITableViewDataSource
 
     open func numberOfSections(in tableView: UITableView) -> Int {
+        print("numberOfSections")
         return form.count
     }
 
@@ -1006,7 +1007,8 @@ extension FormViewController {
     /**
      Called when the keyboard will appear. Adjusts insets of the tableView and scrolls it if necessary.
      */
-    @objc open func keyboardWillShow(_ notification: Notification) {
+    @objc open func keyboardDidShow(_ notification: Notification) {
+        print("keyboardDidShow")
         guard let table = tableView, let cell = table.findFirstResponder()?.formCell() else { return }
         let keyBoardInfo = notification.userInfo!
         let endFrame = keyBoardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
