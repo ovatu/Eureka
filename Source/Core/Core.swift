@@ -432,7 +432,7 @@ open class FormViewController: UIViewController, FormViewControllerProtocol, For
 
     /// Defines the behaviour of the navigation between rows
     public var navigationOptions: RowNavigationOptions?
-    private var tableViewStyle: UITableView.Style = .grouped
+    public var tableViewStyle: UITableView.Style = .grouped
 
     public init(style: UITableView.Style) {
         super.init(nibName: nil, bundle: nil)
@@ -958,7 +958,6 @@ extension FormViewController : UITableViewDataSource {
     // MARK: UITableViewDataSource
 
     open func numberOfSections(in tableView: UITableView) -> Int {
-        print("numberOfSections")
         return form.count
     }
 
@@ -1008,7 +1007,6 @@ extension FormViewController {
      Called when the keyboard will appear. Adjusts insets of the tableView and scrolls it if necessary.
      */
     @objc open func keyboardDidShow(_ notification: Notification) {
-        print("keyboardDidShow")
         guard let table = tableView, let cell = table.findFirstResponder()?.formCell() else { return }
         let keyBoardInfo = notification.userInfo!
         let endFrame = keyBoardInfo[UIResponder.keyboardFrameEndUserInfoKey] as! NSValue
